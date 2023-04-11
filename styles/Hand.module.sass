@@ -1,0 +1,15 @@
+.hand
+  
+  .hand_card 
+    width: fit-content
+    float: left
+    // margin-right: -20px
+    transition: transform 0.5s
+    
+    & + &
+      margin-left: 3px
+      
+    &:hover 
+      transform: translateY(-20px)
+      fill-opacity: 0.5
+

@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model game {
+  id               Int                @id @default(autoincrement())
+  dealer_id        Int
+  player_turn_id   Int
+  winner_id        Int?
+  deck             Json
+  discard          Json?
+  player_ids       Int[]
+  player_game_info player_game_info[] @ignore
+}
+
+model player {
+  id               Int                @id @default(autoincrement())
+  name             String
+  password         String
+  player_game_info player_game_info[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model player_game_info {
+  game_id    Int
+  player_id  Int
+  hand       Json?
+  laid_cards Json?
+  taken_card Boolean
+  game       game    @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_id")
+  player     player  @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_player_id")
+
+  @@id([game_id, player_id])
+}
