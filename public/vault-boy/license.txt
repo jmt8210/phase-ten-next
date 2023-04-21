@@ -1,0 +1,11 @@
+Model Information:
+* title:	Vault-Boy
+* source:	https://sketchfab.com/3d-models/vault-boy-f8cc32a668474de3a8c429c6dceb0208
+* author:	LocoPixel (https://sketchfab.com/locopixel)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Vault-Boy" (https://sketchfab.com/3d-models/vault-boy-f8cc32a668474de3a8c429c6dceb0208) by LocoPixel (https://sketchfab.com/locopixel) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

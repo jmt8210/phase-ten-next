@@ -1,12 +1,8 @@
-import styles from '@/styles/CreateGameDialog.module.sass';
-import {
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  SyntheticEvent,
-  useState
-} from 'react';
+import { default as create_game_styles } from '@/styles/CreateGame.module.sass';
+import { default as dialog_styles } from '@/styles/Dialog.module.sass';
+import { useState } from 'react';
 import { Alert } from './Alert';
-import useSwr from 'swr';
+import { FaPlusCircle } from 'react-icons/fa';
 
 export const CreateGameDialog = () => {
   const [users, setUsers] = useState<string[]>([]);
@@ -34,7 +30,7 @@ export const CreateGameDialog = () => {
   };
 
   return (
-    <div className={styles.create_dialog}>
+    <div className={dialog_styles.dialog}>
       {isError ? (
         <div style={{ marginBottom: 10 }}>
           <Alert
@@ -46,14 +42,12 @@ export const CreateGameDialog = () => {
         <></>
       )}
       <div>
-        Users: <input onChange={updateUser} id="userInput" type="text" />
-        <button
+        User: <input onChange={updateUser} id="userInput" type="text" />
+        <FaPlusCircle
           style={{ marginLeft: 20 }}
-          className={styles.create_dialog_button}
+          color="#005524"
           onClick={addPlayer}
-        >
-          Add player
-        </button>
+        />
       </div>
       <div>
         {users.map((username) => (
@@ -61,7 +55,10 @@ export const CreateGameDialog = () => {
         ))}
       </div>
       <div>
-        <button className={styles.create_dialog_button} onClick={createGame}>
+        <button
+          className={create_game_styles.create_dialog_button}
+          onClick={createGame}
+        >
           Create
         </button>
       </div>

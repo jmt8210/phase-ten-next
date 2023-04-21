@@ -1,4 +1,4 @@
-import styles from '@/styles/LoginDialog.module.sass';
+import styles from '@/styles/Dialog.module.sass';
 import { useState } from 'react';
 import { Alert } from './Alert';
 
@@ -52,7 +52,7 @@ export const LoginDialog = () => {
   };
 
   return (
-    <div className={styles.create_dialog}>
+    <div className={styles.dialog}>
       {isError ? (
         <div style={{ marginBottom: 10 }}>
           <Alert

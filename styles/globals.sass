@@ -1,8 +1,7 @@
 body 
   margin: 0
   overflow-x: hidden
-  background-color: #fafafa
-  /* overflow-y: hidden; */
+  background-color: #eee
 
 a 
   color: inherit
@@ -10,11 +9,14 @@ a
 
 
 input,
-input:focus 
+input:focus,
+input:focus-visible 
   border: unset
-  border: 1px solid black
-  border-radius: 6px
+  outline: unset
+  font-family: inherit
+  border-bottom: 1px solid black
   line-height: 24px
+  background: transparent
 
 button 
   background: unset
@@ -23,7 +25,8 @@ button
   border-radius: 6px
   font-family: inherit
   padding: 4px
+  background-color: rgba(30, 108, 192, 0.5)
+  border: 1px solid #306cc0
 
 button:hover 
   cursor: pointer
-

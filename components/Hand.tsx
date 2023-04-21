@@ -12,7 +12,7 @@ export const Hand = ({ cards }: HandProps) => {
   return (
     <div className={styles.hand}>
       {cards.map((i) => (
-        <div className={styles.hand_card}>
+        <div key={i.color + i.value} className={styles.hand_card}>
           <PlayingCard value={i.value} color={i.color} size={i.size} />
         </div>
       ))}
