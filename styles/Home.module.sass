@@ -1,11 +1,12 @@
+@use "./variables" as *
+
 .home
   display: flex
   align-items: center
   justify-content: center
   flex-direction: column
-  background-image: linear-gradient(to right, #306cc0, #ce0b21, #f2b10b, #005524) 
+  background-image: $gradient
   background-clip: text
-  color: transparent
   animation: movinggradient 20s linear infinite
   background-size: 200%
 

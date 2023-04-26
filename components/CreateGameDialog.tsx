@@ -1,8 +1,8 @@
-import { default as create_game_styles } from '@/styles/CreateGame.module.sass';
 import { default as dialog_styles } from '@/styles/Dialog.module.sass';
 import { useState } from 'react';
 import { Alert } from './Alert';
 import { FaPlusCircle } from 'react-icons/fa';
+import { Button } from './Button';
 
 export const CreateGameDialog = () => {
   const [users, setUsers] = useState<string[]>([]);
@@ -55,12 +55,15 @@ export const CreateGameDialog = () => {
         ))}
       </div>
       <div>
-        <button
+        {/* <button
           className={create_game_styles.create_dialog_button}
           onClick={createGame}
         >
           Create
-        </button>
+        </button> */}
+        <Button>
+          <>test</>
+        </Button>
       </div>
     </div>
   );

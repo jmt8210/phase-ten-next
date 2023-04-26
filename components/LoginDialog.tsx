@@ -21,7 +21,7 @@ export const LoginDialog = () => {
   };
 
   const createUser = () => {
-    fetch('/api/register', {
+    fetch('/api/auth/register', {
       method: 'POST',
       body: JSON.stringify({ username: currUser, password: currPass })
     })
@@ -35,17 +35,17 @@ export const LoginDialog = () => {
       .catch((err) => console.error(err));
   };
 
-  const loginUser = () => {
-    fetch('/api/login')
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        console.error(res?.message);
-        console.log(res?.name);
-      })
-      .catch((err) => console.error(err));
-  };
+  // const loginUser = () => {
+  //   fetch('/api/auth/signin')
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((res) => {
+  //       console.error(res?.message);
+  //       console.log(res?.name);
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
 
   const addPlayer = () => {
     if (!users.includes(currUser)) setUsers([...users, currUser]);
@@ -73,7 +73,7 @@ export const LoginDialog = () => {
         <button className={styles.login_dialog_button} onClick={createUser}>
           Register
         </button>
-        <button className={styles.login_dialog_button} onClick={loginUser}>
+        <button className={styles.login_dialog_button} onClick={() => {}}>
           Login
         </button>
       </div>

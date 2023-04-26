@@ -1,0 +1,38 @@
+@use "./variables" as *
+
+// Inputs
+  
+input
+  border: unset
+  outline: unset
+  font-family: inherit
+  border-bottom: 1px solid black
+  line-height: 24px
+  background: transparent
+  transition: border-color .3s ease-in-out
+
+input:focus,
+input:focus-visible
+  border-color: blue
+  color: inherit
+
+// Buttons
+
+button
+  border: unset
+  padding: 5px 10px
+  border-radius: 6px
+  font-family: inherit
+  padding: 4px
+  background: $card-blue
+  color: #fff
+
+button:hover 
+  cursor: pointer
+
+
+// Links
+
+a 
+  color: inherit
+  text-decoration: none
