@@ -1,6 +1,8 @@
 type ButtonProps = {
-  children: JSX.Element;
+  children: React.ReactNode;
 };
 export const Button = ({ children }: ButtonProps) => (
-  <button>{children}</button>
+  <button className="rounded py-1 px-3 hover:cursor-pointer bg-card-blue">
+    {children}
+  </button>
 );

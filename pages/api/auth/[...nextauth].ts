@@ -4,6 +4,9 @@ import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 export const authOptions = {
+  session: {
+    maxAge: 30 * 60 // 30 Minutes
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -32,7 +35,7 @@ export const authOptions = {
 
           const passwordsMatch = await bcrypt.compare(
             credentials.password,
-            player?.password
+            player.password
           );
 
           if (!passwordsMatch) return null;
@@ -48,6 +51,15 @@ export const authOptions = {
         }
       }
     })
-  ]
+  ],
+  pages: {
+    signIn: '/login'
+  },
+  secret: process.env.JWT_SECRET,
+  callbacks: {
+    redirect: async ({ url }: { url: string }) => {
+      return Promise.resolve(url);
+    }
+  }
 };
 export default NextAuth(authOptions);

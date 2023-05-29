@@ -1,4 +1,3 @@
-import { default as dialog_styles } from '@/styles/Dialog.module.sass';
 import { useState } from 'react';
 import { Alert } from './Alert';
 import { FaPlusCircle } from 'react-icons/fa';
@@ -30,7 +29,7 @@ export const CreateGameDialog = () => {
   };
 
   return (
-    <div className={dialog_styles.dialog}>
+    <div className="dialog">
       {isError ? (
         <div style={{ marginBottom: 10 }}>
           <Alert
@@ -61,9 +60,7 @@ export const CreateGameDialog = () => {
         >
           Create
         </button> */}
-        <Button>
-          <>test</>
-        </Button>
+        <Button>test</Button>
       </div>
     </div>
   );

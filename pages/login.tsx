@@ -1,19 +1,30 @@
-import Head from 'next/head';
-import styles from '@/styles/Home.module.sass';
-import { Header } from '@/components/Header';
 import { LoginDialog } from '@/components/LoginDialog';
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType
+} from 'next';
+import { getCsrfToken } from 'next-auth/react';
+import { Alert } from '@/components/Alert';
+import { Page } from '@/components/Page';
 
-export default function Home() {
+export default function Login({
+  csrfToken
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <div className={styles.home}>
-      <Head>
-        <title>Phase 10</title>
-        <meta name="description" content="Phase 10 online, for NMM" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/images/Logo.svg" />
-      </Head>
-      <Header />
-      <LoginDialog />
-    </div>
+    <Page>
+      {csrfToken ? (
+        <LoginDialog csrfToken={csrfToken} />
+      ) : (
+        <Alert message="NextAuth failed to provide token" type={'error'} />
+      )}
+    </Page>
   );
 }
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => ({
+  props: {
+    csrfToken: await getCsrfToken(context)
+  }
+});

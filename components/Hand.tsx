@@ -1,18 +1,17 @@
-import { useState } from 'react';
 import { PlayingCard } from './PlayingCard';
-
-import styles from '@/styles/Hand.module.sass';
 
 type HandProps = {
   cards: PlayingCard[];
 };
 
 export const Hand = ({ cards }: HandProps) => {
-  const [cardHovered, setCardHovered] = useState<boolean>(false);
   return (
-    <div className={styles.hand}>
+    <div>
       {cards.map((i) => (
-        <div key={i.color + i.value} className={styles.hand_card}>
+        <div
+          key={i.color + i.value}
+          className="w-fit float-left transition-transform hover:-translate-y-5 ml-1"
+        >
           <PlayingCard value={i.value} color={i.color} size={i.size} />
         </div>
       ))}
