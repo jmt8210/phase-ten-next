@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { User } from 'next-auth';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
+import { User } from 'next-auth/core/types';
 export const authOptions = {
   session: {
     maxAge: 30 * 60 // 30 Minutes
@@ -40,9 +40,7 @@ export const authOptions = {
 
           if (!passwordsMatch) return null;
 
-          const user: User = {
-            id: player.id.toString()
-          };
+          const user = player as unknown as User;
 
           return user;
         } catch (e) {

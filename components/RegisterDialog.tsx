@@ -28,7 +28,6 @@ export const RegisterDialog = () => {
       })
       .then((res) => {
         console.error(res?.message);
-        console.log(res?.name);
       })
       .catch((err) => console.error(err));
   };

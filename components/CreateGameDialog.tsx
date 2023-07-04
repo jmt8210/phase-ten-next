@@ -3,10 +3,13 @@ import { Alert } from './Alert';
 import { FaPlusCircle } from 'react-icons/fa';
 import { Button } from './Button';
 
+import { useRouter } from 'next/navigation';
+
 export const CreateGameDialog = () => {
   const [users, setUsers] = useState<string[]>([]);
   const [currUser, setCurrUser] = useState<string>('');
   const [isError, setIsError] = useState<boolean>(false);
+  const { push } = useRouter();
 
   const updateUser = () => {
     setIsError(false);
@@ -15,12 +18,16 @@ export const CreateGameDialog = () => {
   };
 
   const createGame = () => {
-    fetch('/api/create_game')
-      .then((res) => {
-        if (res.status !== 200) return { name: 'no' };
-        else res.json();
+    fetch('/api/create_game', {
+      method: 'POST',
+      body: JSON.stringify({ player_names: users, player: 'justin' })
+    })
+      .then(async (res) => {
+        return res.status !== 200 ? { game_id: -1 } : res.json();
       })
-      .then((res) => console.log(res?.name))
+      .then((res) => {
+        push(`/game/${res?.game_id}`);
+      })
       .catch((err) => console.error(err));
   };
 
@@ -54,12 +61,7 @@ export const CreateGameDialog = () => {
         ))}
       </div>
       <div>
-        {/* <button
-          className={create_game_styles.create_dialog_button}
-          onClick={createGame}
-        >
-          Create
-        </button> */}
+        <button onClick={createGame}>Create</button>
         <Button>test</Button>
       </div>
     </div>

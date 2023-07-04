@@ -8,9 +8,3 @@ export default function Login() {
     </Page>
   );
 }
-
-// const { status } = useSession();
-// const router = useRouter();
-// console.log(router.query.callbackUrl);
-// // if (status === 'authenticated')
-// //   router.push(router.query.callbackUrl as string);

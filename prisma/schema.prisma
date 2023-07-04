@@ -13,15 +13,15 @@ model game {
   dealer_id        Int
   player_turn_id   Int
   winner_id        Int?
-  deck             Json
-  discard          Json?
+  deck             Int[]
+  discard          Int[]
   player_ids       Int[]
   player_game_info player_game_info[] @ignore
 }
 
 model player {
   id               Int                @id @default(autoincrement())
-  name             String
+  name             String             @unique
   password         String
   player_game_info player_game_info[] @ignore
 }
@@ -30,8 +30,11 @@ model player {
 model player_game_info {
   game_id    Int
   player_id  Int
-  hand       Json?
-  laid_cards Json?
+  score      Int
+  phase      Int
+  skips      Int
+  hand       Int[]
+  laid_cards Int[]
   taken_card Boolean
   game       game    @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_id")
   player     player  @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_player_id")

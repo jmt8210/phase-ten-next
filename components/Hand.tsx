@@ -1,7 +1,7 @@
 import { PlayingCard } from './PlayingCard';
 
 type HandProps = {
-  cards: PlayingCard[];
+  cards: number[];
 };
 
 export const Hand = ({ cards }: HandProps) => {
@@ -9,10 +9,10 @@ export const Hand = ({ cards }: HandProps) => {
     <div>
       {cards.map((i) => (
         <div
-          key={i.color + i.value}
+          key={i}
           className="w-fit float-left transition-transform hover:-translate-y-5 ml-1"
         >
-          <PlayingCard value={i.value} color={i.color} size={i.size} />
+          <PlayingCard cardNumber={i} />
         </div>
       ))}
     </div>
