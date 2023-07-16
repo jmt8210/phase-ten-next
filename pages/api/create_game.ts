@@ -51,7 +51,7 @@ export default async function handler(
       }
     });
   } catch (e: any) {
-    console.log(e);
+    console.error(e);
     res.status(500).json({ message: 'Unable to create game' });
     return;
   }

@@ -21,7 +21,7 @@ export const initGame: (playerIDs: number[]) => GameData = (
   // Wilds: 8
   // Skips: 4
   // Total: ( (Color * 4 * 2) + Wilds + Skips) = 96 + 8 + 4 = 108
-  for (let i = 1; i < 108; i++) newDeck.push(i as CardValue);
+  for (let i = 1; i <= 108; i++) newDeck.push(i as CardValue);
 
   shuffle(newDeck);
 

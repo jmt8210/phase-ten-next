@@ -6,11 +6,11 @@ type HandProps = {
 
 export const Hand = ({ cards }: HandProps) => {
   return (
-    <div>
+    <div className="flex gap-2">
       {cards.map((i) => (
         <div
           key={i}
-          className="w-fit float-left transition-transform hover:-translate-y-5 ml-1"
+          className="w-fit transition-transform hover:-translate-y-5"
         >
           <PlayingCard cardNumber={i} />
         </div>

@@ -31,7 +31,7 @@ export default async function handler(
     }
 
     bcrypt.hash(body.password, SALT_ROUNDS, async (err, hash) => {
-      if (err) console.log(err);
+      if (err) console.error(err);
       await prisma.player.create({
         data: {
           name: body.username,
