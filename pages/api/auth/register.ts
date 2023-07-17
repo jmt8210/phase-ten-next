@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import { prisma } from '@/prisma/prisma';
 
 const SALT_ROUNDS = 10;
 
@@ -17,8 +17,6 @@ export default async function handler(
     res.status(500).json({ message: 'Username/password not provided' });
     return;
   }
-
-  const prisma = new PrismaClient();
 
   try {
     const user = await prisma.player.findFirst({

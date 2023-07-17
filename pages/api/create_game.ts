@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient, game, player, player_game_info } from '@prisma/client';
+import { game, player, player_game_info } from '@prisma/client';
 import { initGame, shuffle } from './util';
+import { prisma } from '@/prisma/prisma';
 
 type Data = { game_id: number } | { message: string };
 
@@ -9,7 +10,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const prisma = new PrismaClient();
   const data = JSON.parse(req.body);
   var player_names = data.player_names;
   player_names.push(data.player);

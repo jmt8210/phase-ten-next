@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { game, PrismaClient } from '@prisma/client';
+import { prisma } from '@/prisma/prisma';
+import { game } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Data = {
@@ -24,7 +25,6 @@ export default async function handler(
   }
 
   try {
-    const prisma = new PrismaClient();
     const game = await prisma.game.findUniqueOrThrow({
       where: { id: id }
     });

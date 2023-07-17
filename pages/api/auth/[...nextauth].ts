@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
 import { User } from 'next-auth/core/types';
+import { prisma } from '@/prisma/prisma';
 export const authOptions = {
   session: {
     maxAge: 30 * 60 // 30 Minutes
@@ -26,7 +26,6 @@ export const authOptions = {
         }
 
         try {
-          const prisma = new PrismaClient();
           const player = await prisma.player.findFirst({
             where: { name: credentials.username }
           });

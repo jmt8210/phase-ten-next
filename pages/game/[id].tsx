@@ -5,7 +5,7 @@ import { Page } from '@/components/Page';
 import useSwr from 'swr';
 import { game, player_game_info } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { CommunityCards } from '@/components/CommunityCards';
 
@@ -34,7 +34,7 @@ export default function Game({
     setTimeout(() => {
       if (!session) router.push('/login');
     }, 1000);
-  }, []);
+  }, [session, router]);
 
   if (
     !game_data?.game ||
