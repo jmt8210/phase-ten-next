@@ -34,7 +34,7 @@ export default async function handler(
 
   await prisma.player_game_info.update({
     where: { game_id_player_id: { game_id, player_id: player.id } },
-    data: { hand: [...player_game_info.hand, newCard] }
+    data: { hand: [...player_game_info.hand, newCard], taken_card: true }
   });
 
   if (data.deck === 'true') {

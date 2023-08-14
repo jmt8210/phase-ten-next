@@ -58,7 +58,7 @@ export default function Game() {
         player_id={player_id}
         game_id={parseInt(game_id)}
         card={game_data.game.discard[0] ?? -1}
-        pickedUp={pickedUp}
+        pickedUp={pickedUp || player_game_data.player_game_info.taken_card}
         mutate={mutate}
         setPickedUp={setPickedUp}
       />
