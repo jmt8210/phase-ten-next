@@ -29,7 +29,6 @@ const takeFromDeck = async (
     `/api/take_card?game_id=${game_id}&player_id=${player_id}&deck=true`
   )
     .then(() => {
-      console.log('mutating');
       mutate();
       setPickedUp(true);
     })
@@ -49,7 +48,6 @@ const takeFromDiscard = async (
     `/api/take_card?game_id=${game_id}&player_id=${player_id}&deck=false`
   )
     .then(() => {
-      console.log('mutating');
       mutate();
       setPickedUp(true);
     })
@@ -74,14 +72,18 @@ export const CommunityCards = ({
     >
       <PlayingCard cardNumber={0} />
     </a>
-    <a
-      onClick={() =>
-        !pickedUp
-          ? takeFromDiscard(player_id, game_id, mutate, setPickedUp)
-          : () => {}
-      }
-    >
-      <PlayingCard cardNumber={card} />
-    </a>
+    {card !== -1 ? (
+      <a
+        onClick={() =>
+          !pickedUp
+            ? takeFromDiscard(player_id, game_id, mutate, setPickedUp)
+            : () => {}
+        }
+      >
+        <PlayingCard cardNumber={card} />
+      </a>
+    ) : (
+      <></>
+    )}
   </div>
 );

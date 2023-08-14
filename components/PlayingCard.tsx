@@ -22,6 +22,14 @@ const parseCardNumber: (cardNumber: CardNumber) => {
   color: CardColor;
   value: CardValue;
 } = (cardNumber) => {
+  // Card number to card:
+  // 0: Card Back
+  // 1-24: Blue Cards, two sets of 1-12
+  // 25-48: Green Cards, two sets of 1-12
+  // 49-72: Yellow Cards, two sets of 1-12
+  // 73-96: Red Cards, two sets of 1-12
+  // 97-104: Wild Cards, 8 total
+  // 105-108: Skip Cards, 4 total
   let color: CardColor = 'Skip';
   let value = cardNumber - 1;
   if (value === -1) {

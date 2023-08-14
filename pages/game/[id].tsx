@@ -1,20 +1,18 @@
 import { Hand } from '@/components/Hand';
-import { getSession } from 'next-auth/react';
 import { Page } from '@/components/Page';
 
 import useSwr from 'swr';
 import { game, player_game_info } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { CommunityCards } from '@/components/CommunityCards';
+import { useSession } from 'next-auth/react';
 
-export default function Game({
-  session
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Game() {
+  const session = useSession();
   const router = useRouter();
   const [pickedUp, setPickedUp] = useState<boolean>(false);
-  const player_id = session?.user?.name;
+  const player_id = session?.data?.user?.name;
   let game_id = router.query.id;
   let isTurn = false;
 
@@ -38,6 +36,7 @@ export default function Game({
 
   if (
     !game_data?.game ||
+    !player_id ||
     !player_game_data?.player_game_info ||
     typeof game_id !== 'string'
   ) {
@@ -58,7 +57,7 @@ export default function Game({
       <CommunityCards
         player_id={player_id}
         game_id={parseInt(game_id)}
-        card={game_data.game.discard[0]}
+        card={game_data.game.discard[0] ?? -1}
         pickedUp={pickedUp}
         mutate={mutate}
         setPickedUp={setPickedUp}
@@ -67,8 +66,3 @@ export default function Game({
     </Page>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-  return { props: { session } };
-};

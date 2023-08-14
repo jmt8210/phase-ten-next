@@ -1,8 +1,5 @@
 import { LoginDialog } from '@/components/LoginDialog';
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType
-} from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getCsrfToken } from 'next-auth/react';
 import { Alert } from '@/components/Alert';
 import { Page } from '@/components/Page';
@@ -21,10 +18,10 @@ export default function Login({
   );
 }
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => ({
-  props: {
-    csrfToken: await getCsrfToken(context)
-  }
-});
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context)
+    }
+  };
+};
