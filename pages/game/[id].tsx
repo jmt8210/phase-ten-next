@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { CommunityCards } from '@/components/CommunityCards';
 import { useSession } from 'next-auth/react';
+import { Button } from '@/components/Button';
 
 export default function Game() {
   const session = useSession();
@@ -27,6 +28,14 @@ export default function Game() {
       ? `/api/player_game_info/${player_id}/${game_id}`
       : null
   );
+
+  const endTurn = async () => {
+    await fetch(`/api/update_turn?game_id=${game_id}`)
+      .then(() => {
+        setPickedUp(false);
+      })
+      .catch((err) => console.error(err));
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -62,7 +71,10 @@ export default function Game() {
         mutate={mutate}
         setPickedUp={setPickedUp}
       />
-      <Hand cards={player_game_data?.player_game_info.hand} />
+      <Hand canUpdate cards={player_game_data?.player_game_info.hand} />
+      {isTurn && (
+        <Button onClick={async () => await endTurn()}>End Turn</Button>
+      )}
     </Page>
   );
 }
