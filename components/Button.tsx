@@ -9,7 +9,7 @@ type ButtonProps = {
 export const Button = ({ children, ...props }: ButtonProps) => (
   <button
     {...props}
-    className="rounded py-1 px-3 hover:cursor-pointer bg-card-blue"
+    className="rounded py-1 px-3 hover:cursor-pointer bg-card-blue disabled:bg-card-blue/25 disabled:cursor-default"
   >
     {children}
   </button>

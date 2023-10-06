@@ -1,12 +1,13 @@
 import { Hand } from '@/components/Hand';
 import { Page } from '@/components/Page';
-import { game, player_game_info } from '@prisma/client';
+import { player, player_game_info } from '@prisma/client';
 import { GetServerSideProps } from 'next';
 import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { globalArrayFetcher } from '../_app';
+import { PlayingCard } from '@/components/PlayingCard';
 
 export default function PlayerGames() {
   const { data: session } = useSession();
@@ -45,6 +46,13 @@ export default function PlayerGames() {
     );
   }
 
+  player_game_datas.sort(
+    (
+      i: { player_game_info: player_game_info },
+      j: { player_game_info: player_game_info }
+    ) => j.player_game_info.game_id - i.player_game_info.game_id
+  );
+
   return (
     <Page>
       <div className="w-3/4 border rounded-lg overflow-hidden">
@@ -69,7 +77,14 @@ export default function PlayerGames() {
                   <td>{res.player_game_info.phase}</td>
                   <td>{res.player_game_info.score}</td>
                   <td className="flex justify-center">
-                    <Hand cards={res.player_game_info.hand} />
+                    {/* Current hand */}
+                    <div className="flex gap-2">
+                      {res.player_game_info.hand.map((i) => (
+                        <div key={i} className="w-fit">
+                          <PlayingCard cardNumber={i} />
+                        </div>
+                      ))}
+                    </div>
                   </td>
                 </tr>
               )

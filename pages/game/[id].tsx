@@ -8,10 +8,15 @@ import { useEffect, useState } from 'react';
 import { CommunityCards } from '@/components/CommunityCards';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/Button';
+import { PlayingCard } from '@/components/PlayingCard';
+import clsx from 'clsx';
 
 export default function Game() {
   const session = useSession();
   const router = useRouter();
+  const [waitedForSession, setWaitedForSession] = useState<boolean>(false);
+  // For now, only allow one card to be selected so that it can be discarded
+  const [activeCard, setActiveCard] = useState<number>(-1);
   const [pickedUp, setPickedUp] = useState<boolean>(false);
   const player_id = session?.data?.user?.name;
   let game_id = router.query.id;
@@ -20,7 +25,7 @@ export default function Game() {
   const { data: game_data, mutate } = useSwr<{ message?: string; game: game }>(
     game_id ? `/api/game_info/${game_id}` : null
   );
-  const { data: player_game_data } = useSwr<{
+  const { data: player_game_data, mutate: mutatePlayerInfo } = useSwr<{
     message?: string;
     player_game_info: player_game_info;
   }>(
@@ -30,11 +35,16 @@ export default function Game() {
   );
 
   const endTurn = async () => {
-    await fetch(`/api/update_turn?game_id=${game_id}`)
+    await fetch(`/api/update_turn?game_id=${game_id}&discard=${activeCard}`)
       .then(() => {
         setPickedUp(false);
       })
       .catch((err) => console.error(err));
+    await mutate();
+    await mutatePlayerInfo();
+    isTurn =
+      game_data?.game.player_turn_id ===
+      player_game_data?.player_game_info.player_id;
   };
 
   useEffect(() => {
@@ -60,20 +70,43 @@ export default function Game() {
       player_game_data.player_game_info.player_id;
   }
 
+  console.log(isTurn);
+
   return (
     <Page>
       <h1>Game {game_id}</h1>
       <CommunityCards
-        player_id={player_id}
-        game_id={parseInt(game_id)}
+        isTurn={isTurn}
+        playerID={player_id}
+        gameID={parseInt(game_id)}
         card={game_data.game.discard[0] ?? -1}
         pickedUp={pickedUp || player_game_data.player_game_info.taken_card}
         mutate={mutate}
         setPickedUp={setPickedUp}
       />
-      <Hand canUpdate cards={player_game_data?.player_game_info.hand} />
+      {/* The hand */}
+      <div className="flex gap-2">
+        {player_game_data?.player_game_info.hand.map((i) => (
+          <div
+            key={i}
+            className="w-fit transition-transform hover:-translate-y-5"
+          >
+            <div
+              onClick={() => setActiveCard?.(() => (activeCard === i ? -1 : i))}
+              className={clsx('active:outline', activeCard === i && 'outline')}
+            >
+              <PlayingCard cardNumber={i} />
+            </div>
+          </div>
+        ))}
+      </div>
       {isTurn && (
-        <Button onClick={async () => await endTurn()}>End Turn</Button>
+        <Button
+          disabled={!pickedUp || activeCard == -1}
+          onClick={async () => await endTurn()}
+        >
+          End Turn
+        </Button>
       )}
     </Page>
   );

@@ -24,6 +24,15 @@ export default async function handler(
     return;
   }
 
+  const discard = parseInt(req.query.discard as string);
+  if (!discard) {
+    // TODO: A card may not be discarded if a player puts down their last card (should we disallow this and always discard the last card?)
+    res
+      .status(500)
+      .json({ message: `Couldn't parse card: ${req.query.discard}` });
+    return;
+  }
+
   try {
     const game = await prisma.game.findUniqueOrThrow({
       where: {
@@ -32,6 +41,29 @@ export default async function handler(
     });
 
     let player_game_info = await prisma.player_game_info.findUniqueOrThrow({
+      where: {
+        game_id_player_id: {
+          player_id: game.player_turn_id,
+          game_id: game.id
+        }
+      }
+    });
+
+    await prisma.player_game_info.update({
+      where: {
+        game_id_player_id: {
+          player_id: game.player_turn_id,
+          game_id: game.id
+        }
+      },
+      data: {
+        hand: player_game_info.hand.filter((i) => i != discard),
+        taken_card: false
+      }
+    });
+
+    // Next player
+    player_game_info = await prisma.player_game_info.findUniqueOrThrow({
       where: {
         game_id_player_id: {
           game_id: game_id,
@@ -46,6 +78,7 @@ export default async function handler(
       }
     });
 
+    // Loop through players while skipped
     while (player_game_info.skips !== 0) {
       await prisma.player_game_info.update({
         where: {
@@ -71,12 +104,14 @@ export default async function handler(
         }
       });
     }
+
     await prisma.game.update({
       where: {
         id: game_id
       },
       data: {
-        player_turn_id: player_game_info.player_id
+        player_turn_id: player_game_info.player_id,
+        discard: discard !== -1 ? [discard].concat(game.discard) : game.discard
       }
     });
     res.status(200).json({});

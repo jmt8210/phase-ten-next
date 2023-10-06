@@ -5,8 +5,9 @@ import { game } from '@prisma/client';
 import { Dispatch, SetStateAction } from 'react';
 
 type CommunityCardsProps = {
-  player_id: string;
-  game_id: number;
+  isTurn: boolean;
+  playerID: string;
+  gameID: number;
   card: CardNumber;
   pickedUp: boolean;
   setPickedUp: Dispatch<SetStateAction<boolean>>;
@@ -55,35 +56,39 @@ const takeFromDiscard = async (
 };
 
 export const CommunityCards = ({
+  isTurn,
   card,
   pickedUp,
   setPickedUp,
-  player_id,
-  game_id,
+  playerID,
+  gameID,
   mutate
-}: CommunityCardsProps) => (
-  <div className={clsx('flex gap-2', !pickedUp && 'animate-pulse')}>
-    <a
-      onClick={() =>
-        !pickedUp
-          ? takeFromDeck(player_id, game_id, mutate, setPickedUp)
-          : () => {}
-      }
-    >
-      <PlayingCard cardNumber={0} />
-    </a>
-    {card !== -1 ? (
+}: CommunityCardsProps) => {
+  console.log(isTurn);
+  return (
+    <div className={clsx('flex gap-2', !pickedUp && isTurn && 'animate-pulse')}>
       <a
         onClick={() =>
-          !pickedUp
-            ? takeFromDiscard(player_id, game_id, mutate, setPickedUp)
+          !pickedUp && isTurn
+            ? takeFromDeck(playerID, gameID, mutate, setPickedUp)
             : () => {}
         }
       >
-        <PlayingCard cardNumber={card} />
+        <PlayingCard cardNumber={0} />
       </a>
-    ) : (
-      <></>
-    )}
-  </div>
-);
+      {card !== -1 ? (
+        <a
+          onClick={() =>
+            !pickedUp && isTurn
+              ? takeFromDiscard(playerID, gameID, mutate, setPickedUp)
+              : () => {}
+          }
+        >
+          <PlayingCard cardNumber={card} />
+        </a>
+      ) : (
+        <></>
+      )}
+    </div>
+  );
+};
